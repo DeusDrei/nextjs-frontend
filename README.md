@@ -1,36 +1,106 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Next.js + Flask + PostgreSQL Application
 
-## Getting Started
+This is a full-stack application using **Next.js** for the frontend, **Flask** for the backend, and **PostgreSQL** as the database. Below are the instructions to get the development environment set up and running.
 
-First, run the development server:
+## Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+Make sure you have the following installed:
+
+- **Python** (for Flask backend)
+- **Node.js** and **npm** (for Next.js frontend)
+- **PostgreSQL** (for the database)
+
+## Setup Instructions
+
+### 1. **Change Database Credentials in `config.py`**
+
+Before running the app, make sure to update your database credentials in `config.py`:
+
+```python
+app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://postgres:root@localhost/mydatabase"
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Replace `postgres`, `root`, and `localhost` with your actual PostgreSQL username, password, and host. Also, make sure to replace `mydatabase` with the name of your PostgreSQL database.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 2. **Seed Data Already Included in `main.py`**
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+The seed data for the `BlogPost` model is already included in `main.py`. When the Flask backend is run, the seed data will be automatically inserted into your PostgreSQL database.
 
-## Learn More
+### 3. **Start the Backend Server**
 
-To learn more about Next.js, take a look at the following resources:
+- Open **Terminal** (Command Prompt or your terminal of choice).
+- Change to the **backend** directory where `main.py` is located:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+  ```bash
+  cd backend
+  ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Install the required Python packages:
 
-## Deploy on Vercel
+  ```bash
+  pip install -r requirements.txt
+  ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+  **If `pip install -r requirements.txt` doesn't work**, you can install each package individually using the following commands:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+  ```bash
+  pip install Flask==2.0.1
+  pip install Flask-SQLAlchemy==2.5.1
+  pip install psycopg2-binary==2.9.1
+  pip install Flask-Cors==5.0.0
+  ```
+
+- Run the Flask backend server:
+
+  ```bash
+  python main.py
+  ```
+
+The backend server will start running at **http://127.0.0.1:5000**.
+
+### 4. **Start the Frontend Server**
+
+- Open another **Terminal** window.
+- Change to the **frontend** directory where the Next.js application is located:
+
+  ```bash
+  cd frontend
+  ```
+
+- Install the required Node.js packages:
+
+  ```bash
+  npm install
+  ```
+
+- Run the Next.js frontend server:
+
+  ```bash
+  npm run dev
+  ```
+
+The frontend server will start running at **http://localhost:3000**.
+
+---
+
+## Accessing the Application
+
+- The **backend API** will be available at `http://127.0.0.1:5000`.
+- The **frontend application** will be available at `http://localhost:3000`.
+
+## Notes
+
+- Make sure your **PostgreSQL** server is running and accessible.
+- The backend will automatically seed the database with sample blog posts on startup.
+- If you need to update the seed data, you can modify the `seed_data()` function in `main.py`.
+
+---
+
+## Troubleshooting
+
+- If you encounter issues with `npm run dev`, try running `npm install` again in the frontend directory.
+- If the backend server doesn’t start, ensure that **Flask** is installed correctly and that your PostgreSQL connection details in `config.py` are correct.
+- If `pip install -r requirements.txt` fails, you can manually install the dependencies one by one as mentioned above in Step 3.
+
+- PostgreSQL Server: Make sure your PostgreSQL server is running and that the database `mydatabase` is created. If you need help with starting PostgreSQL, refer to the PostgreSQL documentation or use pgAdmin to ensure the server is running and accessible.
+
